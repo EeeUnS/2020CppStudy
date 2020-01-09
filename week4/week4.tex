@@ -98,7 +98,7 @@ margin=.5em}]{dfn}
 
 \begin{frame}상속}
     \begin{itemize}
-        \item 상속하는쪽 : 부모 클래스 받는쪽: 자식 클래스
+        \item 상속하는쪽 : 부모(super) 클래스 받는쪽: 자식(sub) 클래스
         \item 큰범위의 클래스(ex 사람) 작은 범위의 단위(ex 학생)으로 쪼개질때 큰범위의 정보를 포함하고 작아짐으로서 세세해지는 정보 또한 들어갈때 상속을 씀 is a 관계(a student is a person)
         \item 외부에서는 부모 클래스의 public + 자식 클래스의 public을 쓸 수 있다.
         \item 상속 방식 
@@ -114,18 +114,18 @@ margin=.5em}]{dfn}
 
 
 \begin{frame}[fragile]{생성자 소멸자 순서}
-    \begin{lstlisting}[style = CStyle]
-    
-    \end{lstlisting}
-
+    \begin{itemize}
+        \item 소멸자는 가상함수로 선언하여야한다.
+        \item 부모생성자 - 자식 생성자 순으로 불린다.
+        \item 자식 소멸자 - 부모 소멸자 순으로 불린다.
+    \end{itemize}
 \end{frame}    
 
 
 
 \begin{frame}{가상함수(virtual function)}
     \begin{itemize}
-        \item 상속 받는 클래스는 부모 클래스의 함수를 덮어 쓸 수 있다. 자식 클래스에 맞게 메소드를 다시 짜는것.
-        \item override : 자식 클래스가 부모 클래스의 메소드를 덮는것.
+        \item 상속 받는 클래스는 부모 클래스의 함수를 덮어 쓸 수 있다. 자식 클래스에 맞게 메소드를 다시 짜는것 이를 override라 한다.
         \item override할 부모 클래스 메소드에 virtual을 붙인다. 자식클래스에는 붙여도되고 안붙여도 됨.
         \item c++ keyword : \href{https://youtu.be/JMw0F8FFe80}{\textcolor{blue}{참고}}
         \begin{itemize}
@@ -153,46 +153,50 @@ margin=.5em}]{dfn}
 \end{frame}
 
 
-
-
 \begin{frame}{가상함수 작동 방식}
     \begin{itemize}
         \item 가상함수를 사용시 virtual function table이 생성된다.
         \item 가상함수가 들어간 클래스의 각 인스턴스는 가상함수테이블(vftable)을 가르키는 포인터(virtual function pointer vptr : 4byte)를 가짐
-        \item 
         \item virtual 선언만하고 정의를 빼려면 virtual type function() $=0$;
     \end{itemize}
 \end{frame}
 
 
-
-
-\begin{frame}{C++ 캐스팅 종류}
-    \begin{itemize}
-        \item const\_cast<>
-        \item dynamic\_cast<>
-        \item reinterpret\_cast<>
-        \item const\_cast<>
-    \end{itemize}
-\end{frame}
-
-
-
-
-
-
 \begin{frame}[fragile]{메모리 구조}
-
+    
 \end{frame}    
 
 
+\begin{frame}[fragile]{up casting}
+    \begin{itemize}
+        \item up casting : 부모 클래스의 자료형으로 자식 클래스를 가르키는것.
+        \item down casting : up casting 된 부모 클래스의 포인터를 다시 자식 클래스 자료형 포인터로 가르키게 하는것.
+    \end{itemize}
+    \begin{lstlisting}[style = CStyle]
+        super* supPtr = new sub(); // up casting
+        sub* subPtr1 =  (sub*)supPtr; // down casting1
+        sub* subPtr2 = dynamic_cast<sub*>(supPtr); // down casting2
+    \end{lstlisting}
+\end{frame}
+
+
+\begin{frame}{C vs C++ 캐스팅 종류}
+    \begin{itemize}
+        \item C sytle 
+        \item static\_cast<>() : 일반적으로 사용하는 타입 변환 캐스팅, C style 과 다르게 컴파일 타임에 타입을 체크해서 성능상의 이점이 있음. \href{https://stackoverflow.com/questions/28002/regular-cast-vs-static-cast-vs-dynamic-cast}{\textcolor{blue}{참고}}
+        \item dynamic\_cast<>() : down casting을 한다. 캐스팅된 자료형이 서로 맞지 않을시 null return. run time(RTTI)에 타입을 체크하기때문에 비용이 큼.
+        \item reinterpret\_cast<>() : 완전히 다른 타입으로 비트변환없이 바꿀때, 일반적으로 사용되지 않음. \href{https://stackoverflow.com/questions/573294/when-to-use-reinterpret-cast}{\textcolor{blue}{참고}}
+        \item const\_cast<>() : const 값을 변경하기위한 cast.
+    \end{itemize}
+\end{frame}
+
+%https://stackoverflow.com/questions/3601602/what-are-rvalues-lvalues-xvalues-glvalues-and-prvalues
 
 \begin{frame}{다중 상속(Multiple inheritance)}
     \begin{itemize}
-        \item 
-        \item 
-    \end{itemize}
-\end{frame}
+        \item 직접 찾아볼것.
+    \end{itemize}    
+\end{frame}    
 
 
 
@@ -205,8 +209,8 @@ margin=.5em}]{dfn}
 % dynamic_cast
 
 \begin{frame}{}
-    \href{}{\textcolor{blue}{}}
-\end{frame}    
+    \href{}{\textcolor{blue}{참고}}
+\end{frame}        
 
 
 \begin{frame}{}
@@ -214,18 +218,8 @@ margin=.5em}]{dfn}
         \item 
         \item 
         \item 
-    \end{itemize}
+    \end{itemize}    
 \end{frame}
-
-
-\begin{frame}[fragile]{}
-        
-    \begin{lstlisting}[style = CStyle]
-    
-    \end{lstlisting}
-
-\end{frame}    
-
 
 \begin{frame}{}
     \begin{figure}[h!]
