@@ -90,19 +90,10 @@ margin=.5em}]{dfn}
 \begin{frame}
     \begin{itemize}
         \item 서적 : CSAPP (7장 linker)
-        \item 아마 시프시간에 배우는 것.
+        \item 아마 시프시간에 배울것.(확인 : SNU,kaist)
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Complier}
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[scale=0.25]{pic1}
-        \caption{컴파일 과정}
-    \end{figure}
-\end{frame}    
-
-\subsection{Object File}
 \begin{frame}{Object File}
     
     \begin{itemize}
@@ -112,15 +103,17 @@ margin=.5em}]{dfn}
     \end{itemize}
 \end{frame}    
 
-\begin{frame}{}
+
+\section{Relocatable Object Files}
+
+\begin{frame}{ELF}
     x86-linux : object구조로 ELF(Executable and Linkable Format)사용
     \begin{figure}[h!]
         \centering
-        \includegraphics[scale=0.5]{pic2}
+        \includegraphics[scale=0.5]{}
         \caption{Typical ELF relocatable object file.}
     \end{figure}
 \end{frame}    
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{}
@@ -129,7 +122,7 @@ margin=.5em}]{dfn}
         
         \item \textbf{.rodata} Read-only data such as the format strings in printf statements, and jump tables for switch statements.
         
-        \item  \textbf{.data} Initialized global and static C variables. 
+        \item  \textbf{.data} Initialized global and static C variables. Local C variables are maintained at run time on the stack and do not appear in either the .data or .bss sections.
         
         \item \textbf{.bss} Uninitialized global and static C variables, along with any global or static variables that are initialized to zero. block satrted by symbol 의 약어
         
@@ -148,24 +141,16 @@ margin=.5em}]{dfn}
     \end{itemize}
 \end{frame}    
 
-\subsection{symbol}
+
 \begin{frame}{symbol}
     \begin{itemize}
         \item Global symbols : 모듈 m에 정의되거나 다른 모듈에 참조될 수 있는 심볼 / 전역변수와 static이아닌 함수
         \item Global symbols : 다른 모듈에 정의된 전역변수 
         /다른곳에 정의된 (extern)전역변수와 static이아닌 함수
-        \item Local symbols : static으로 선언된 함수, static 전역변수
+        \item Local symbols : static으로 선언된 함수,전역변수 참조 x
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    Q : 지역 변수는요?
-
-    A : 런타임에 스택에 쌓습니다.
-\end{frame}
-
-
-\subsection{linker}
 \begin{frame}{linker 단계}
     \begin{enumerate}
         \item symbol resolution
@@ -176,10 +161,9 @@ margin=.5em}]{dfn}
 
 \begin{frame}{Symbol Resolution}
     \begin{itemize}
-        \item strong symbol : 초기화된 전역변수, 함수
+        \item strong symbol : 초기화된 전역변수
         \item weak symbol : 초기화x 전역변수
     \end{itemize}
-    Rule
     \begin{enumerate}
         \item Multiple strong symbols with the same name are not allowed.
         \item Given a strong symbol and multiple weak symbols with the same name, choose the strong symbol.
@@ -189,23 +173,20 @@ margin=.5em}]{dfn}
 
 \begin{frame}{Relocation}
     \begin{enumerate}
-        \item Relocating sections and symbol definitionss :  여러개의 .data section을 합친다.
+        \item Relocating sections and symbol definitionss :  여러개의 .data section 합친다. 이후 인스트럭션과 전역변수들이 런타임 메모리 주소를 가진다.
         \item Relocating symbol references within sections. :모든 심볼 참조를 수정한다. 이후  
         모든 심볼들이 런타임 메모리 주소를 가진다. 어셈블러가 만든 .rel.data section에 있는 Relocation Entries자료구조를 가지고 수행한다
         \begin{itemize}
-            \item R\_X86\_64\_PC32 : 상대주소
-            \item R\_X86\_64\_32. : 절대주소
+            \item R_X86_64_PC32 : 상대주소
+            \item R_X86_64_32. : 절대주소
         \end{itemize}
-         이후 인스트럭션과 전역변수들이 런타임 메모리 주소를 가진다.
     \end{enumerate}
-\end{frame} 
-
-\subsection{Executable Object Files}
+\end{frame}    
 
 \begin{frame}{Executable Object Files}
     \begin{figure}[h!]
-        %\centering
-        \includegraphics[scale=0.25]{pic4}
+        \centering
+        \includegraphics[scale=0.5]{}
         \caption{Typical ELF executable object file.}
     \end{figure}
 \end{frame}    
@@ -213,60 +194,104 @@ margin=.5em}]{dfn}
 \begin{frame}{Loading}    
     \begin{figure}[h!]
         \centering
-        \includegraphics[scale=0.3]{pic5}
-        \caption{\textbf{Linux x86-64 run-time memory image.}}
+        \includegraphics[scale=0.5]{}
+        \caption{\textbf{Linux x86-64 run-time memory image.} 
+        Gaps due to segment alignment requirements and addressspace layout randomization (ASLR) are not shown. Not to scale}
     \end{figure}
     loading : 실행가능한 목적파일 내의 코드와 데이터를 메모리로 복사하고 첫번째 인스트럭션(엔트리 포인트)으로 점프해서실행하는 과정
 \end{frame}    
 
-\section{$\#include$이해}
 
-\begin{frame}[fragile]{header file}
+\section{template}
+
+\begin{frame}{template function}
+    \begin{itemize}
+        \item 타입에 얽메이지 않고 코드를 작성할 수 있게 해줌
+        \item container와 기타 라이브러리를 구현한 방법
+    \end{itemize}    
+    \begin{lstlisting}[style = CStyle]
+        void swap(int &a, int &b)
+        void swap(double &a,double &b)
+        void swap(name &a, name &b)
+        // replace
+        template<typename T>
+        void swap(T &a ,T& b);
+    \end{lstlisting}
+\end{frame}    
+
+    
+\begin{frame}{template}
+    \begin{itemize}
+        \item 타입(class) 아무거나 넣어도 가능, 템플릿 인자 여러개 사용가능.
+        \item template을 실제로 인자를 넣어서 사용할때 직접 인자를 넣은 실제 코드를 생성함 짜게되는 template 코드는 실제 실행 코드가 아님
+        \item 실행 파 일크기가 생각보다 커질 수 있음
+        \item 템플릿의 링커단계 처리는 컴파일러마다 차이가 있음. (GNU에서는 weak symbol로 처리해서 생성되는 template중 아무거나 택한다.)\href{https://stackoverflow.com/questions/44335046/how-does-the-linker-handle-identical-template-instantiations-across-translation}{\textcolor{blue}{참고}
+    \end{itemize}
+\end{frame}    
+
+\begin{frame}[fragile]{}
+    \begin{lstlisting}[style = CStyle]
+    template<typename T>
+    class name
+    {
+        T item;
+        T function(const T &a,const T &b);
+        int a;
+    };
+    template<typename T>
+    T name<T>::function(const T &a,const T &b){;}
+    \end{lstlisting}
+\end{frame}    
+
+\begin{frame}{template linker error}
+    \begin{itemize}
+        \item template을 파일 분할을 해보자.
+        \item 링커 에러가 뜰것이다.
+        \item 왜?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{header file}
     \begin{itemize}
         \item 그냥 텍스트파일과 같다.
         \item 선언을 위한것...
         \item 실제 구현은 어느 cpp파일에서...
-        \item $\#include$는 전처리 지시자.
-        \item $\#include$로 cpp파일에 그대로 붙여넣는다.
+        \item $#include$는 \textbf{전처리 지시자}.
+        \item $#include$로 cpp파일에 그대로 붙여넣는다.
     \end{itemize}
 \end{frame}
 
-\section{template}
 
-\begin{frame}{template}
+
+
+
+
+\begin{frame}[fragile]{template specialization}
+    \begin{lstlisting}[style = CStyle]
+        #include<iostream>
+        using namespace std;
+        template<typename T>
+        T function(T a)        {
+            cout << "Template" << endl;
+        }
+        template<> // specialization
+        char function<char>(char a)        {
+            cout << "specialization " << endl;
+        }
+        char function(char a){
+            cout << "overloading" << endl;
+        }
+        int main(){
+            function(1);
+            function('s');
+        }
+    \end{lstlisting}
+
     \begin{itemize}
-        \item template을 실제로 인자를 넣어서 사용할때 전처리에서 인자를 넣은 코드를 생성함
-        \item 타입 아무거나 넣어도 가능
-        \item 실행 파일크기가 예상과 다르게 커질수있음
+        \item 권장되는 방법은 아님 \href{https://wikidocs.net/652}{\textcolor{blue}{참고1} \href{https://www.codentalks.com/t/topic/2834}{\textcolor{blue}{참고2}
     \end{itemize}
 \end{frame}    
 
-
-\begin{frame}[fragile]{}
-    \begin{lstlisting}[style = CStyle]
-        template<typename T>
-        T function(T a , T* b, T& c)
-        {;}
-        template<>
-        char function<char>(char a , char* b, char &c)
-        {;}
-
-        int main()
-        {
-            function(1,0x0000,3);
-            function("s", 0x0000,"asdf");
-        }
-    \end{lstlisting}
-\end{frame}    
-
-
-
-\begin{frame}{}
-
-\end{frame}    
-
-\begin{frame}{}
-\end{frame}    
 
 \begin{frame}{}
 \end{frame}    
@@ -277,7 +302,9 @@ margin=.5em}]{dfn}
 
 \section{TMP}
 
+
 \begin{frame}[fragile]{TMP}
+    
     \begin{lstlisting}[style = CStyle]
     template <int N>
     struct Factorial {
@@ -288,34 +315,34 @@ margin=.5em}]{dfn}
     struct Factorial<1> {
         static const int result = 1;
     };
-    Factorial<4>::result
+
+    cout << Factorial<4>::result; 
     \end{lstlisting}
-    \begin{itemize}
-        \item template의 특성을 이용해서 반복되는 계산을 컴파일타임에 계산을 해놓은다음 그 값을 $O(1)$에 부르는 흑마법
-        \item \href{https://libsora.so/posts/friday-the-13th-tmp/}{\textcolor{blue}{이런짓도 가능}}
-    \end{itemize}
     
+    \begin{itemize}
+        \item template의 특성을 이용해서 반복되는 계산을 코드를 생성하여 계산 해놓은다음 그 값을 $O(1)$에 부르는 흑마법
+        \item \href{https://libsora.so/posts/friday-the-13th-tmp/}{\textcolor{blue}{이런짓도 가능}
+    \end{itemize}
 \end{frame}    
 
 \begin{frame}{TMP는 나쁘다}
-    \href{https://www.youtube.com/watch?v=a6BQphLoTag&feature=youtu.be}{\textcolor{blue}{참고}}
+    \href{https://youtu.be/a6BQphLoTag}{\textcolor{blue}{참고}
     \begin{itemize}
         \item 극암의 코드 가독성
-        \item 헬 디버깅
-        \item 어려움
-        \item 써보고 직접 판단 내려보자.
+        \item 컴파일시간 늘어남.
+        \item 그런데도 써야하는 곳이 있긴한듯.
     \end{itemize}
 \end{frame}    
 
 
-\section{constexpr(c++11)}
-
-\begin{frame}[fragile]{constexpr}
+\section{constexpr (c++11)}
+\begin{frame}{constexpr}
+    \href{https://youtu.be/o9FXctFYlnY}{\textcolor{blue}{참고}
     \begin{itemize}
         \item 변수에 사용할때
         \begin{itemize}
-            \item $\#define$ 대체가능
-            \item const 상수 대체가능
+            \item #define 상수 대체가능
+            \item const 상수 완전히 대체가능
             \item 컴파일타임에 상수로 대체
         \end{itemize}
         \item 함수에 사용할때
@@ -325,21 +352,7 @@ margin=.5em}]{dfn}
         \end{itemize}
     \end{itemize}
 \end{frame}    
-
-% constexpr code ex 
-\begin{frame}[fragile]{}
-        
-    \begin{lstlisting}[style = CStyle]
-    
-    \end{lstlisting}
-
-\end{frame}   
-
-
-
 % 과제 3-2
-
-
 
 \begin{frame}{과제}
     과제 3-2 : 링크드리스트
@@ -352,10 +365,13 @@ margin=.5em}]{dfn}
 % \begin{frame}{}
 % \end{frame}    
 %   \href{https://www.youtube.com/watch?v=OMiEwfmfdng&feature=youtu.be}{\textcolor{blue}
-\begin{frame}[fragile]{}
+% \begin{frame}[fragile]{}
         
-    \begin{lstlisting}[style = CStyle]
+%     \begin{lstlisting}[style = CStyle]
     
-    \end{lstlisting}
+%     \end{lstlisting}
 
-\end{frame}    
+% \end{frame}    
+
+
+%\lstset {language=C++}
