@@ -17,7 +17,7 @@
 \definecolor{mPurple}{rgb}{0.58,0,0.82}
 \definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
 %https://tex.stackexchange.com/questions/348651/c-code-to-add-in-the-document
-\lstdefinestyle{CStyle}{
+\lstdefinestyle{CppStyle}{
     backgroundcolor=\color{backgroundColour},   
     commentstyle=\color{mGreen},
     keywordstyle=\color{magenta},
@@ -34,7 +34,7 @@
     showstringspaces=false,
     showtabs=false,                  
     tabsize=2,
-    language=C
+    language=C++
 }
 
 \usepackage{url}
@@ -81,7 +81,7 @@ margin=.5em}]{dfn}
 \section{입출력}
 %\text{속도를 위한 흑마법}
 \begin{frame}[fragile]{입출력의 변화}
-    \begin{lstlisting}[style = CStyle]
+    \begin{lstlisting}[style = CppStyle]
     \include{iostream}
         std::ios_base::sync_with_stdio(false); 
         std::cin.tie(NULL);//
@@ -98,7 +98,7 @@ margin=.5em}]{dfn}
 
 
 \begin{frame}[fragile]{namespace}
-    \begin{lstlisting}[style = CStyle]
+    \begin{lstlisting}[style = CppStyle]
         namespace name1
         {
             void function1...
@@ -125,7 +125,7 @@ margin=.5em}]{dfn}
 \begin{frame}[fragile]
     \frametitle{STL}
     
-    \begin{lstlisting}[style = CStyle]
+    \begin{lstlisting}[style = CppStyle]
         #include{STL}
         std::container<type> name();
         name.method();

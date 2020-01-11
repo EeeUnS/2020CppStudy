@@ -18,7 +18,7 @@
 \definecolor{mPurple}{rgb}{0.58,0,0.82}
 \definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
 %https://tex.stackexchange.com/questions/348651/c-code-to-add-in-the-document
-\lstdefinestyle{CStyle}{
+\lstdefinestyle{CppStyle}{
     backgroundcolor=\color{backgroundColour},   
     commentstyle=\color{mGreen},
     keywordstyle=\color{magenta},
@@ -35,7 +35,7 @@
     showstringspaces=false,
     showtabs=false,                  
     tabsize=2,
-    language=C
+    language=C++
 }
 
 \usepackage{url}
@@ -106,7 +106,7 @@ margin=.5em}]{dfn}
 
 \begin{frame}[fragile]{call by ref}
     C와의 중요한 차이점
-    \begin{lstlisting}[style = CStyle]
+    \begin{lstlisting}[style = CppStyle]
         int a = 10;
         int &a =20;
         void function(const int &a)
@@ -125,7 +125,7 @@ margin=.5em}]{dfn}
         \item free $\rightarrow$ delete 
     \end{itemize}
     malloc은 그저 메모리 할당만을 함. new는 class의 메모리할당 처리또한 같이해주기 때문에 new사용이 필수
-    \begin{lstlisting}[style = CStyle]
+    \begin{lstlisting}[style = CppStyle]
         char* n = new char[20];
         delete[] n;
     \end{lstlisting}
@@ -135,7 +135,7 @@ margin=.5em}]{dfn}
 \begin{frame}[fragile]{Range Based For(c++11)}
     \href{https://www.youtube.com/watch?v=sVoz36DYK5s&list=PLW_uvsSPlijtSmrhajc3Y02G86lOieQOb}{\textcolor{blue}{참고}}
     
-    \begin{lstlisting}[style = CStyle]
+    \begin{lstlisting}[style = CppStyle]
     int fibonacci[] = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 }; 
     for (int number : fibonacci)
     {

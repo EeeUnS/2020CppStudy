@@ -18,7 +18,7 @@
 \definecolor{mPurple}{rgb}{0.58,0,0.82}
 \definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
 %https://tex.stackexchange.com/questions/348651/c-code-to-add-in-the-document
-\lstdefinestyle{CStyle}{
+\lstdefinestyle{CppStyle}{
     backgroundcolor=\color{backgroundColour},   
     commentstyle=\color{mGreen},
     keywordstyle=\color{magenta},
@@ -35,7 +35,7 @@
     showstringspaces=false,
     showtabs=false,                  
     tabsize=2,
-    language=C
+    language=C++
 }
 
 \usepackage{url}
@@ -80,9 +80,11 @@ margin=.5em}]{dfn}
     \tableofcontents
 \end{frame}   
 
+\section{상속}
+
 
 \begin{frame}[fragile]{기본적인 모습}
-    \begin{lstlisting}[style = CStyle]
+    \begin{lstlisting}[style = CppStyle]
     class sample
     {
     public:
@@ -96,7 +98,7 @@ margin=.5em}]{dfn}
 \end{frame}    
 
 
-\begin{frame}상속}
+\begin{frame}{상속}
     \begin{itemize}
         \item 상속하는쪽 : 부모(super) 클래스 받는쪽: 자식(sub) 클래스
         \item 큰범위의 클래스(ex 사람) 작은 범위의 단위(ex 학생)으로 쪼개질때 큰범위의 정보를 포함하고 작아짐으로서 세세해지는 정보 또한 들어갈때 상속을 씀 is a 관계(a student is a person)
@@ -122,19 +124,10 @@ margin=.5em}]{dfn}
 \end{frame}    
 
 
+\section{가상함수}
 
-\begin{frame}{가상함수(virtual function)}
-    \begin{itemize}
-        \item 상속 받는 클래스는 부모 클래스의 함수를 덮어 쓸 수 있다. 자식 클래스에 맞게 메소드를 다시 짜는것 이를 override라 한다.
-        \item override할 부모 클래스 메소드에 virtual을 붙인다. 자식클래스에는 붙여도되고 안붙여도 됨.
-        \item c++ keyword : \href{https://youtu.be/JMw0F8FFe80}{\textcolor{blue}{참고}}
-        \begin{itemize}
-            \item  override : override받는 메소드에 붙일 수 있다. override keyword를 붙인 멤버 함수가 override된 멤버함수가 아닐경우에 에러를 뱉는다.
-            \item  final : 이 멤버 함수를 override하지 않으려고할때 붙일 수 있다. 상속받은 클래스가 이 멤버 함수를 override하면 에러를 뱉는다
-        \end{itemize}
-    \end{itemize}
-    
-    \begin{lstlisting}[style = CStyle]
+\begin{frame}[fragile]{가상함수(virtual function)}
+    \begin{lstlisting}[style = CppStyle]
     class sample
     {
         public:
@@ -152,18 +145,29 @@ margin=.5em}]{dfn}
     \end{lstlisting}
 \end{frame}
 
+\begin{frame}[fragile]{가상함수(virtual function)}
+    \begin{itemize}
+        \item 상속 받는 클래스는 부모 클래스의 함수를 덮어 쓸 수 있다. 자식 클래스에 맞게 메소드를 다시 짜는것 이를 override라 한다.
+        \item override할 부모 클래스 메소드에 virtual을 붙인다. 자식클래스에는 붙여도되고 안붙여도 됨.
+        \item c++ keyword : \href{https://youtu.be/JMw0F8FFe80}{\textcolor{blue}{참고}}
+        \begin{itemize}
+            \item  override : override받는 메소드에 붙일 수 있다. override keyword를 붙인 멤버 함수가 override된 멤버함수가 아닐경우에 에러를 뱉는다.
+            \item  final : 이 멤버 함수를 override하지 않으려고할때 붙일 수 있다. 상속받은 클래스가 이 멤버 함수를 override하면 에러를 뱉는다
+        \end{itemize}
+    \end{itemize}
+\end{frame}
 
 \begin{frame}{가상함수 작동 방식}
     \begin{itemize}
         \item 가상함수를 사용시 virtual function table이 생성된다.
         \item 가상함수가 들어간 클래스의 각 인스턴스는 가상함수테이블(vftable)을 가르키는 포인터(virtual function pointer vptr : 4byte)를 가짐
         \item virtual 선언만하고 정의를 빼려면 virtual type function() $=0$;
-    \end{itemize}
+    \end{itemize}s
 \end{frame}
 
 
 \begin{frame}[fragile]{메모리 구조}
-    
+    asdf
 \end{frame}    
 
 
@@ -172,21 +176,22 @@ margin=.5em}]{dfn}
         \item up casting : 부모 클래스의 자료형으로 자식 클래스를 가르키는것.
         \item down casting : up casting 된 부모 클래스의 포인터를 다시 자식 클래스 자료형 포인터로 가르키게 하는것.
     \end{itemize}
-    \begin{lstlisting}[style = CStyle]
+    \begin{lstlisting}[style = CppStyle]
         super* supPtr = new sub(); // up casting
         sub* subPtr1 =  (sub*)supPtr; // down casting1
         sub* subPtr2 = dynamic_cast<sub*>(supPtr); // down casting2
     \end{lstlisting}
 \end{frame}
 
+\section{casting}
 
 \begin{frame}{C vs C++ 캐스팅 종류}
     \begin{itemize}
         \item C sytle 
-        \item static\_cast<>() : 일반적으로 사용하는 타입 변환 캐스팅, C style 과 다르게 컴파일 타임에 타입을 체크해서 성능상의 이점이 있음. \href{https://stackoverflow.com/questions/28002/regular-cast-vs-static-cast-vs-dynamic-cast}{\textcolor{blue}{참고}}
-        \item dynamic\_cast<>() : down casting을 한다. 캐스팅된 자료형이 서로 맞지 않을시 null return. run time(RTTI)에 타입을 체크하기때문에 비용이 큼.
-        \item reinterpret\_cast<>() : 완전히 다른 타입으로 비트변환없이 바꿀때, 일반적으로 사용되지 않음. \href{https://stackoverflow.com/questions/573294/when-to-use-reinterpret-cast}{\textcolor{blue}{참고}}
-        \item const\_cast<>() : const 값을 변경하기위한 cast.
+        \item $static\_cast<>()$ : 일반적으로 사용하는 타입 변환 캐스팅, C style 과 다르게 컴파일 타임에 타입을 체크해서 성능상의 이점이 있음. \href{https://stackoverflow.com/questions/28002/regular-cast-vs-static-cast-vs-dynamic-cast}{\textcolor{blue}{참고}}
+        \item $dynamic\_cast<>()$ : down casting을 한다. 캐스팅된 자료형이 서로 맞지 않을시 null return. run time(RTTI)에 타입을 체크하기때문에 비용이 큼.
+        \item $reinterpret\_cast<>()$ : 완전히 다른 타입으로 비트변환없이 바꿀때, 일반적으로 사용되지 않음. \href{https://stackoverflow.com/questions/573294/when-to-use-reinterpret-cast}{\textcolor{blue}{참고}}
+        \item $const\_cast<>()$ : const 값을 변경하기위한 cast.
     \end{itemize}
 \end{frame}
 
@@ -208,23 +213,28 @@ margin=.5em}]{dfn}
 % RTTI
 % dynamic_cast
 
-\begin{frame}{}
-    \href{}{\textcolor{blue}{참고}}
-\end{frame}        
+% \begin{frame}{}
+%     \href{}{\textcolor{blue}{참고}}
+% \end{frame}        
 
 
-\begin{frame}{}
-    \begin{itemize}
-        \item 
-        \item 
-        \item 
-    \end{itemize}    
-\end{frame}
+% \begin{frame}{}
+%     \begin{itemize}
+%         \item 
+%         \item 
+%         \item 
+%     \end{itemize}    
+% \end{frame}
 
-\begin{frame}{}
-    \begin{figure}[h!]
-        %\centering
-        \includegraphics[scale=0.25]{}
-        \caption{}
-    \end{figure}
-\end{frame}
+% \begin{frame}{}
+%     \begin{figure}[h!]
+%         %\centering
+%         \includegraphics[scale=0.25]{}
+%         \caption{}
+%     \end{figure}
+% \end{frame}
+
+
+% \begin{lstlisting}[style = CppStyle]
+%    
+% \end{lstlisting}
