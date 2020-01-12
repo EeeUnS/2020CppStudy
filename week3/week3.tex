@@ -141,7 +141,6 @@ margin=.5em}]{dfn}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{}
     \begin{itemize}
-                    
             \item read wirte segment
             \begin{itemize}
                 \item .data  :  전역, static 변수
@@ -346,12 +345,10 @@ margin=.5em}]{dfn}
     struct Factorial {
         static const int result = N * Factorial<N - 1>::result;
     };
-
     template <>
     struct Factorial<1> {
         static const int result = 1;
     };
-
     cout << Factorial<4>::result; 
     \end{lstlisting}
     
@@ -383,16 +380,34 @@ margin=.5em}]{dfn}
 
 
 %constexpr 코드
-\begin{frame}[fragile]{}
-        
+\begin{frame}[fragile]{costexpr 활용}
     \begin{lstlisting}[style = CppStyle]
-    
+        constexpr int facto(int i){
+            int a = 1;
+            for (int j = 2 ; j <= i; ++j)	{
+                a *= j;
+            }
+            return a;
+        }
+        constexpr int Factorial[13] = {
+            1,
+            facto(1) ,
+            facto(2) ,
+            facto(3) ,
+            facto(4) ,
+            facto(5) ,
+            facto(6) ,
+            facto(7) ,
+            facto(8) ,
+            facto(9) ,
+            facto(10) ,
+            facto(11) ,
+            facto(12)
+        };
     \end{lstlisting}
-
+    \href{https://www.acmicpc.net/problem/10872}{\textcolor{blue}{boj10872}}
+    
 \end{frame}
-
-
-
 
 % 과제 3-2
 

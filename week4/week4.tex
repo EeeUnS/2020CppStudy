@@ -106,8 +106,8 @@ margin=.5em}]{dfn}
         \item 상속 방식 
         \begin{itemize}
             \item public : 외부에서 접근하는것처럼 부모클래스의 private,protect에 직접적인 접근 할 수 없음
-            \item protected : 상속만을 위해 존재하는 접근지정자이며, 외부에서는 접근하지 못하고 protected 상속을 받은 하위 클래스만 접근가능함.
-            \item private : 부모 클래스에 모든 접근이 가능함.
+            \item protected : 상속만을 위해 존재하는 접근지정자이며 추가적인것은 찾아볼것.
+            \item private : 추가적인것은 찾아볼것.
         \end{itemize}
         \item 일반적으로 public상속을 쓴다(나머지 두개는 본인도 써본적없음)
     \end{itemize}
@@ -167,13 +167,17 @@ margin=.5em}]{dfn}
 
 
 \begin{frame}[fragile]{메모리 구조}
-    asdf
+    \begin{figure}[h!]
+        %\centering
+        \includegraphics[scale=0.35]{virtual_table}
+        \caption{vtbl}
+    \end{figure}
 \end{frame}    
 
 
 \begin{frame}[fragile]{up casting}
     \begin{itemize}
-        \item up casting : 부모 클래스의 자료형으로 자식 클래스를 가르키는것.
+        \item up casting : 부모 클래스의 자료형으로 자식 클래스를 가르키는것. 이때 소멸자를 가상함수로 선언하여야한다.
         \item down casting : up casting 된 부모 클래스의 포인터를 다시 자식 클래스 자료형 포인터로 가르키게 하는것.
     \end{itemize}
     \begin{lstlisting}[style = CppStyle]
@@ -183,17 +187,27 @@ margin=.5em}]{dfn}
     \end{lstlisting}
 \end{frame}
 
-\section{casting}
+\section{etc}
 
-\begin{frame}{C vs C++ 캐스팅 종류}
+\begin{frame}{찾아볼것}
+    casting
     \begin{itemize}
         \item C sytle 
-        \item $static\_cast<>()$ : 일반적으로 사용하는 타입 변환 캐스팅, C style 과 다르게 컴파일 타임에 타입을 체크해서 성능상의 이점이 있음. \href{https://stackoverflow.com/questions/28002/regular-cast-vs-static-cast-vs-dynamic-cast}{\textcolor{blue}{참고}}
-        \item $dynamic\_cast<>()$ : down casting을 한다. 캐스팅된 자료형이 서로 맞지 않을시 null return. run time(RTTI)에 타입을 체크하기때문에 비용이 큼.
-        \item $reinterpret\_cast<>()$ : 완전히 다른 타입으로 비트변환없이 바꿀때, 일반적으로 사용되지 않음. \href{https://stackoverflow.com/questions/573294/when-to-use-reinterpret-cast}{\textcolor{blue}{참고}}
-        \item $const\_cast<>()$ : const 값을 변경하기위한 cast.
+        \item $static\_cast<>()$ : \href{https://stackoverflow.com/questions/28002/regular-cast-vs-static-cast-vs-dynamic-cast}{\textcolor{blue}{참고}}
+        \item $dynamic\_cast<>()$ 
+        \item $reinterpret\_cast<>()$ \href{https://stackoverflow.com/questions/573294/when-to-use-reinterpret-cast}{\textcolor{blue}{참고}}
+        \item $const\_cast<>()$ : 
     \end{itemize}
+    $smart\_ptr$(C++11~)
+    \begin{itemize}
+        \item $unique\_ptr<>()$
+        \item $shared\_ptr<>()$
+        \item $weak\_ptr<>()$
+    \end{itemize}
+    enum class
 \end{frame}
+
+
 
 %https://stackoverflow.com/questions/3601602/what-are-rvalues-lvalues-xvalues-glvalues-and-prvalues
 
