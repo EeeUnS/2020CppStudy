@@ -16,7 +16,6 @@ public:
     void SetPrice(int price);
 };
 
-
 class CarManager
 {
 private:
@@ -35,17 +34,33 @@ public:
 
 CarManager::CarManager(std::string fileName)
 {
+    std::string temp;
     std::ifstream fin;
     try
     {
         fin.open(fileName);
+        if (fin.is_open())
     }
-    catch(const std::exception& e)
+    catch (const std::ifstream::failure& e) 
     {
-        std::cerr << e.what() << '\n';
+        // handle exception
+        std::cerr << "exception in reading a file" << std::endl;
+        std::cerr << "exception: " << e.what() << std::endl;
+    } 
+    catch (const std::exception& e) 
+    {
+        // handle exception
+        std::cerr << "exception: " << e.what() << std::endl;
+    } 
+    catch (...) 
+    {
+        // handle exception
+        std::cerr << "any exception!" << std::endl;
+    }
+    while ()
+    {
+
     }
     
-
-
 }
 
