@@ -1,7 +1,6 @@
-bus hyundai universe 45
-bus daewoo bx 40
-truck hyundai porter 1
-truck hyundai mighty 2.5
-bus hyundai county 25
-bus kia granbird 45
-truck daewoo novus 4.5
+hyundai sonata 3000
+hyundai avante 2200
+cadillac cts 5500
+toyota camry 3000
+nissan maxima 4000
+volkswagen passat 3500
