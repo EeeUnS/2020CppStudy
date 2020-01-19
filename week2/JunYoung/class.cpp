@@ -5,52 +5,26 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include "class.hpp"
 
-class Car
+const int Car::GetPrice()
 {
-  private:
-    std::string mBrand;
-    std::string mModel;
-    int mPrice;
+    return mPrice;
+}
 
-  public:
-    Car(std::string carBrand, std::string carModel, int carPrice)
-        : mBrand(carBrand), mModel(carModel), mPrice(carPrice){};
-    Car() = default;
-    ~Car() = default;
-    void SetPrice(int price);
-    int GetPrice()
-    {
-        return mPrice;
-    };
-    std::string GetBrand()
-    {
-        return mBrand;
-    };
-    std::string GetModel()
-    {
-        return mModel;
-    };
-};
-
-class CarManager : public Car
+const std::string Car::GetBrand()
 {
-  private:
-    std::vector<Car> mCarList;
-    std::string mFileName;
+    return mBrand;
+}
+const std::string Car::GetModel()
+{
+    return mModel;
+}
 
-  public:
-    CarManager(std::string fileName);
-    CarManager() = default;
-    ~CarManager() = default;
-    void Menu();
-    void PrintCarList();
-    void FindCarInfo(std::string brand, std::string model);
-    void ChangePrice(std::string brand, std::string model, int price);
-    void SortCarList();
-    void SaveChanges();
-    // static bool SortCmp(Car &lhs, Car &rhs);
-};
+void Car::SetPrice(const int price)
+{
+    mPrice = price;
+}
 
 void CarManager::SaveChanges()
 {
@@ -85,24 +59,23 @@ void CarManager::SaveChanges()
     }
 }
 
-bool SortCmp(Car &lhs, Car &rhs)
-{
-    if (lhs.GetBrand().compare(rhs.GetBrand()) == 0)
-    {
-        return (lhs.GetModel().compare(rhs.GetBrand()) < 0);
-    }
-    else
-    {
-        return (lhs.GetBrand().compare(rhs.GetBrand()) < 0);
-    }
-}
-
 void CarManager::SortCarList()
 {
-    std::sort(mCarList.begin(), mCarList.end(), SortCmp);
+    std::sort(mCarList.begin(), mCarList.end(),
+        [](Car &first, Car &second)
+        {
+            if (first.GetBrand().compare(second.GetBrand()) == 0)
+            {
+                return (first.GetModel().compare(second.GetBrand()) < 0);
+            }
+            else
+            {
+                return (first.GetBrand().compare(second.GetBrand()) < 0);
+            } 
+        }); 
 }
 
-void CarManager::ChangePrice(std::string brand, std::string model, int price)
+void CarManager::ChangePrice(const std::string brand, const std::string model, const int price)
 {
     for (auto &i : mCarList)
     {
@@ -113,7 +86,7 @@ void CarManager::ChangePrice(std::string brand, std::string model, int price)
     }
 }
 
-void CarManager::FindCarInfo(std::string brand, std::string model)
+void CarManager::FindCarInfo(const std::string brand, const std::string model)
 {
     for (auto &i : mCarList)
     {
@@ -132,10 +105,6 @@ void CarManager::PrintCarList()
     }
 }
 
-void Car::SetPrice(int price)
-{
-    mPrice = price;
-}
 void CarManager::Menu()
 {
     enum menu
@@ -198,27 +167,16 @@ void CarManager::Menu()
             break;
         }
         std::cout << std::endl << std::endl;
-        /* code */
     }
 }
-CarManager::CarManager(std::string fileName)
+CarManager::CarManager(const std::string fileName)
 {
     std::string temp;
     std::string tempCarBrand;
     std::string tempCarModel;
     int tempPrice;
     std::ifstream fin;
-    fin.open(fileName);
-    while (!fin.eof())
-    {
-        std::getline(fin, temp);
-        std::stringstream ss(temp);
-        ss >> tempCarBrand >> tempCarModel >> tempPrice;
-        Car tempData(tempCarBrand, tempCarModel, tempPrice);
-        mCarList.push_back(tempData);
-    }
-    /*
-    fin.exceptions(std::ifstream::eofbit | std::ifstream::failbit | std::ifstream::badbit);
+    fin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try
     {
         fin.open(fileName);
@@ -255,15 +213,4 @@ CarManager::CarManager(std::string fileName)
         std::cerr << "any exception!" << std::endl;
         exit(EXIT_FAILURE);
     }
-    */
-}
-
-int main()
-{
-    std::string fileName;
-    std::cout << "파일 이름을 입력하세요" << std::endl;
-    std::cin >> fileName;
-    CarManager carManager(fileName);
-    carManager.Menu();
-    return 0;
 }
