@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -48,20 +49,43 @@ class CarManager : public Car
     void ChangePrice(std::string brand, std::string model, int price);
     void SortCarList();
     void SaveChanges();
-    static bool SortCmp(Car &lhs, Car &rhs);
+    // static bool SortCmp(Car &lhs, Car &rhs);
 };
 
 void CarManager::SaveChanges()
 {
     std::ofstream fout;
-    fout.open("CarListFile.txt");
-    for (auto &i : mCarList)
+    fout.exceptions(std::ofstream::failbit | std::ofstream::badbit);
+    try
     {
-        fout << i.GetBrand() << ' ' << i.GetModel() << ' ' << i.GetPrice() << std::endl;
+        fout.open("CarListFile.txt");
+        if (fout.is_open())
+        {
+            for (auto &i : mCarList)
+            {
+                fout << i.GetBrand() << ' ' << i.GetModel() << ' ' << i.GetPrice() << std::endl;
+            }
+        }
+    }
+    catch (const std::ifstream::failure &e)
+    {
+        // handle exception
+        std::cerr << "exception in writing a file" << std::endl;
+        std::cerr << "exception: " << e.what() << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        // handle exception
+        std::cerr << "exception: " << e.what() << std::endl;
+    }
+    catch (...)
+    {
+        // handle exception
+        std::cerr << "any exception!" << std::endl;
     }
 }
 
-bool CarManager::SortCmp(Car &lhs, Car &rhs)
+bool SortCmp(Car &lhs, Car &rhs)
 {
     if (lhs.GetBrand().compare(rhs.GetBrand()) == 0)
     {
@@ -120,7 +144,8 @@ void CarManager::Menu()
         findCarInfo = 2,
         changePrice = 3,
         sortCarList = 4,
-        saveChanges = 5
+        saveChanges = 5,
+        quit = 6
     };
     while (true)
     {
@@ -131,10 +156,13 @@ void CarManager::Menu()
         std::cout << "3. Change Price" << std::endl;
         std::cout << "4. Sort Car List" << std::endl;
         std::cout << "5. Save Changes" << std::endl;
+        std::cout << "6. Quit" << std::endl;
         std::cout << "Input : ";
         std::cin >> sel;
         std::string brand, model;
         int price;
+        if (sel == 6)
+            break;
         switch (sel)
         {
         case printCarList:
@@ -170,6 +198,7 @@ void CarManager::Menu()
             break;
         }
         std::cout << std::endl << std::endl;
+        /* code */
     }
 }
 CarManager::CarManager(std::string fileName)
@@ -179,41 +208,62 @@ CarManager::CarManager(std::string fileName)
     std::string tempCarModel;
     int tempPrice;
     std::ifstream fin;
-    try
-    {
-        fin.open(fileName);
-        if (fin.is_open())
-            ;
-    }
-    catch (const std::ifstream::failure &e)
-    {
-        // handle exception
-        std::cerr << "exception in reading a file" << std::endl;
-        std::cerr << "exception: " << e.what() << std::endl;
-    }
-    catch (const std::exception &e)
-    {
-        // handle exception
-        std::cerr << "exception: " << e.what() << std::endl;
-    }
-    catch (...)
-    {
-        // handle exception
-        std::cerr << "any exception!" << std::endl;
-    }
-    do
+    fin.open(fileName);
+    while (!fin.eof())
     {
         std::getline(fin, temp);
         std::stringstream ss(temp);
         ss >> tempCarBrand >> tempCarModel >> tempPrice;
         Car tempData(tempCarBrand, tempCarModel, tempPrice);
         mCarList.push_back(tempData);
-    } while (!fin.eof());
+    }
+    /*
+    fin.exceptions(std::ifstream::eofbit | std::ifstream::failbit | std::ifstream::badbit);
+    try
+    {
+        fin.open(fileName);
+        if (fin.is_open())
+            std::cout << "File Is Opened" << std::endl;
+        while (!fin.eof())
+        {
+            std::getline(fin, temp);
+            std::stringstream ss(temp);
+            ss >> tempCarBrand >> tempCarModel >> tempPrice;
+            Car tempData(tempCarBrand, tempCarModel, tempPrice);
+            mCarList.push_back(tempData);
+        }
+    }
+    catch (const std::ifstream::failure &e)
+    {
+        // handle exception
+        if (!fin.eof())
+        {
+            std::cerr << "exception in reading a file" << std::endl;
+            std::cerr << "exception: " << e.what() << std::endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+    catch (const std::exception &e)
+    {
+        // handle exception
+        std::cerr << "exception: " << e.what() << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    catch (...)
+    {
+        // handle exception
+        std::cerr << "any exception!" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    */
 }
 
 int main()
 {
-    CarManager carManager("CarListFile.txt");
+    std::string fileName;
+    std::cout << "파일 이름을 입력하세요" << std::endl;
+    std::cin >> fileName;
+    CarManager carManager(fileName);
     carManager.Menu();
     return 0;
 }
