@@ -7,16 +7,16 @@
 #include <vector>
 #include "class.hpp"
 
-const int Car::GetPrice() const
+const int Car::GetPrice()
 {
     return mPrice;
 }
 
-const std::string Car::GetBrand() const
+const std::string Car::GetBrand()
 {
     return mBrand;
 }
-const std::string Car::GetModel() const
+const std::string Car::GetModel()
 {
     return mModel;
 }
@@ -26,16 +26,16 @@ void Car::SetPrice(const int price)
     mPrice = price;
 }
 
-void CarManager::SaveChanges() const
+void CarManager::SaveChanges()
 {
     std::ofstream fout;
     fout.exceptions(std::ofstream::failbit | std::ofstream::badbit);
     try
     {
-        fout.open(mFileName);
+        fout.open("CarListFile.txt");
         if (fout.is_open())
         {
-            for (const Car &i : mCarList)
+            for (auto &i : mCarList)
             {
                 fout << i.GetBrand() << ' ' << i.GetModel() << ' ' << i.GetPrice() << std::endl;
             }
@@ -105,25 +105,9 @@ void CarManager::PrintCarList()
     }
 }
 
-
-enum class a
-{
-	a = 0
-};
-enum class b
-{
-	a = 0
-};
-
-a::a
-b::a
-//암시적 형변환x
-// casting 무조건 - > 코드적을때 번거로움.
-
-
 void CarManager::Menu()
 {
-    enum  menu //c++ 11 ~
+    enum menu
     {
         printCarList = 1,
         findCarInfo = 2,
@@ -185,7 +169,7 @@ void CarManager::Menu()
         std::cout << std::endl << std::endl;
     }
 }
-CarManager::CarManager(const std::string &fileName) : 
+CarManager::CarManager(const std::string fileName)
 {
     std::string temp;
     std::string tempCarBrand;

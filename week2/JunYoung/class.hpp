@@ -12,11 +12,11 @@ class Car
     std::string mBrand;
     std::string mModel;
     int mPrice;
-	//explicit :  뒤에 어떤 값이 암시적 생성자로 쓰지않아요
+
   public:
-    explicit Car(const std::string carBrand, const std::string carModel, int carPrice)
+    Car(const std::string carBrand, const std::string carModel, int carPrice)
         : mBrand(carBrand), mModel(carModel), mPrice(carPrice){};
-    Car() = delete;
+    Car() = default;
     ~Car() = default;
     void SetPrice(const int price);
     const int GetPrice();
