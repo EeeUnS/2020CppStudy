@@ -1,20 +1,29 @@
+﻿
+const &붙일수있는곳에 다 붙이세요
+
 
 준영
 
-해당파일에 안쓰는 헤더는 죄다 뗄것
+안쓰는 include는 죄다 뗄것
 
 class.hpp
 
 class car
+
 명명 순서
-default는 안쓰는게 나았음.
+public -> private
+포프 스탠다드문서 참고
+
+
+default는 안쓰는게 나았음. delete 추천
 이렇게 들어오는것은 제대로 된게 아니니까
-Car string에 &명명할것.
+
+
 
 getter에 return &
 
 
-carmanager 
+carmanager 
 public car <-심각하게 잘못됨.
 
 값안바뀌는 멤버함수뒤에 const붙일것.
@@ -25,26 +34,24 @@ explicit : 암시적 생성자 못쓰게함.
 class.cpp
 
 error 핸들링은 칭찬. 굳
-생각이상으로 해옴
+생각이상으로 잘해옴
 
 auto는.. 금지
 
 
-c++11~ 
+c++11~ 
 enum class 알아볼것.
 
-mFileName 어따 팔아먹으심
-savechange에서도 고정 파일이름 박으심
-
-
+mFileName 팔아먹은것 주워올것
+savechange에서도 고정 파일이름 박은것 고칠것
 
 fileopen 되어있는지 확인하고 안열리면 exception이아니라 리턴시키는게 맞음.
 
 fin >> tempCarBrand >> tempCarModel >> tempPrice;
-이렇게 할수있음.
-sstream 안쓸수있음.
+이렇게 할수있어서 sstream 안쓸수있음
 
 
+vector emplace_back살펴볼것.
 
 
 도훈
