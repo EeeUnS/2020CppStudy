@@ -29,7 +29,6 @@ class CarManager
 private:
   std::vector<Car> carList;
   std::string fileName;
-
 public:
   // ~CarManager();
   CarManager(std::string fileName);
@@ -42,3 +41,4 @@ public:
 };
 
 #endif // CLASS_HPP
+

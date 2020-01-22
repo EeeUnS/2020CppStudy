@@ -104,7 +104,6 @@ void CarManager::Menu()
       std::cout << "invalid input. try again.\n";
       break;
     }
-
     std::cout << "\n\n";
   }
 }

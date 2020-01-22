@@ -1,4 +1,4 @@
-
+﻿
 준영
 
 해당파일에 안쓰는 헤더는 죄다 뗄것
@@ -36,15 +36,13 @@ enum class 알아볼것.
 mFileName 어따 팔아먹으심
 savechange에서도 고정 파일이름 박으심
 
-
-
 fileopen 되어있는지 확인하고 안열리면 exception이아니라 리턴시키는게 맞음.
 
 fin >> tempCarBrand >> tempCarModel >> tempPrice;
 이렇게 할수있음.
 sstream 안쓸수있음.
 
-
+vector emplace_back살펴볼것.
 
 
 도훈
