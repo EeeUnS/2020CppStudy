@@ -100,7 +100,7 @@ margin=.5em}]{dfn}
         \begin{itemize}
             \item system programming : csapp
             \item socket programming 
-            \item parrell programming : : Cpp Concurrency In Action\href{https://github.com/CppKorea/CppConcurrencyInAction}{\textcolor{blue}{참고}}
+            \item parrell programming : Cpp Concurrency In Action\href{https://github.com/CppKorea/CppConcurrencyInAction}{\textcolor{blue}{참고}}
             \item graphicx
         \end{itemize}
     \end{itemize}
@@ -138,6 +138,35 @@ margin=.5em}]{dfn}
 
 
 
+\begin{frame}[fragile]{ex}
+    \begin{lstlisting}[style = CppStyle]
+    class sample
+    {
+    public: 
+        sample(const sample& a) = default;
+        sample& operator=(const sample& a) = default;
+        
+        sample& operator+(const sample& c)
+        { 
+            a += c.a; b += c.b;
+            return c;
+        }
+    private:
+        int a;
+        int b; 
+    }
+    sample a(1,20),b(29,30);
+    a = b; //compile ok default fucntion
+    a = b = c; // ?
+    a = b + c;
+    \end{lstlisting}
+\end{frame}    
+
+
+\begin{frame}
+    a.operator=(b.operator=(c))
+
+\end{frame}
 
 
 
@@ -183,9 +212,10 @@ margin=.5em}]{dfn}
 
 
 \begin{frame}[fragile]{기초 개념}
-    % \begin{lstlisting}[style = CppStyle]
-    
-    % \end{lstlisting}
+    \begin{lstlisting}[style = CppStyle]
+        sample(sample&& a) = default;
+        sample& operator=(sample&& a) = default;
+    \end{lstlisting}
 \end{frame}
 
 \begin{frame}{value(C++11)}
