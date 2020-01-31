@@ -1,0 +1,297 @@
+
+\documentclass[10pt]{beamer}
+\usepackage{kotex}
+
+\usepackage{framed}
+\usepackage{graphicx}
+%https://www.overleaf.com/learn/latex/Inserting_Images
+
+\usepackage{amsmath}
+%use dfrac
+\usepackage{xcolor}
+
+\usepackage{amsthm}
+%\usepackage{tabl}
+\usepackage{listings}
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+%https://tex.stackexchange.com/questions/348651/c-code-to-add-in-the-document
+\lstdefinestyle{CppStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C++
+}
+
+\usepackage{url}
+
+\usepackage{etoolbox}
+\AtBeginEnvironment{quote}{\singlespacing\small}
+
+
+\usepackage{thmtools}
+\usepackage{xcolor}
+\declaretheoremstyle[% spaceabove=6pt,spacebelow=6pt, headfont=\color{MainColorOne}\sffamily\bfseries, notefont=\mdseries, notebraces={[}{]}, bodyfont=\normalfont,
+headpunct={},
+postheadspace=1em,
+%qed=▣,
+]{maintheorem}
+
+\declaretheorem[%
+name=정의,
+style=maintheorem,
+numberwithin=section, shaded={%bgcolor=MainColorThree!20,
+margin=.5em}]{dfn}
+% \begin{dfn}[]
+% \end{dfn}
+
+\setbeamertemplate{footline}[frame number]
+
+\usetheme{Hannover}
+
+
+\title{week5 후에 공부할것들.}
+
+\author{EUnS}
+
+\begin{document}
+
+
+\begin{frame}
+    \tableofcontents
+\end{frame}    
+
+\section{과목}
+
+\begin{frame}{과목}
+    \begin{itemize}
+        \item computer architecture
+        \item os
+        \item etc
+        \begin{itemize}
+            \item system programming
+            \item socket programming
+            \item parrell programming
+            \item graphicx
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{과목}
+    \begin{itemize}
+        \item computer architecture : csapp, computer architecture a quantitative approach
+        \item os : 공룡책
+        \item etc
+        \begin{itemize}
+            \item system programming : csapp
+            \item socket programming 
+            \item parrell programming : : Cpp Concurrency In Action\href{https://github.com/CppKorea/CppConcurrencyInAction}{\textcolor{blue}{참고}}
+            \item graphicx
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{c++}
+    \begin{itemize}
+        \item c++ programming language(Bjarne Stroustrup)
+        \item a tour of c++(Bjarne Stroustrup)
+        \item (modern)effective c++ (scott-meyer)
+    \end{itemize}
+    etc..
+
+    \begin{itemize}
+        \item \href{https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md}{\textcolor{blue}{cpp가이드라인}},
+        \href{https://github.com/CppKorea/CppCoreGuidelines}{\textcolor{blue}{번역}}
+        \item \href{https://github.com/utilForever/game-developer-roadmap}{\textcolor{blue}{게임개발로드맵}}
+        \item \href{https://en.cppreference.com/w/}{\textcolor{blue}{cppref}}
+    \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%class 세부사항
+\section{class}
+
+
+\begin{frame}{class}
+    \begin{itemize}
+        \item reference 반환을 할때?
+        \item friend : 특정 함수에대해서 해당 클래스의 private영역을 사용할 수 있게 허락해줌
+    \end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}[fragile]{I/O setting}
+    \begin{lstlisting}[style = CppStyle]
+    #include<istream>
+    #include<ostream>
+
+    class sample
+    {
+    public:
+        friend std::ostream& operator<<(std::ostream& os, const sample& a);
+        friend std::istream& operator>>(std::istream& os, sample& a);
+    private:
+        int a;
+        int b; 
+    }
+        
+    std::ostream& operator<<(std::ostream& os, const sample& c)
+    {
+        os << a <<' ' << b;
+        return os;
+    }
+
+    std::istream& operator>>(std::istream& os, sample& c)
+    {
+        os >> a >> b;
+        return os;
+    }
+    \end{lstlisting}
+\end{frame}    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%value
+\section{value}
+
+\begin{frame}{value}
+    \begin{itemize}
+        \item lvalue
+        \item rvalue
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{기초 개념}
+    % \begin{lstlisting}[style = CppStyle]
+    
+    % \end{lstlisting}
+\end{frame}
+
+\begin{frame}{value(C++11)}
+    \href{https://en.cppreference.com/w/cpp/language/value_category}{\textcolor{blue}{참고}}
+    
+    \begin{itemize}
+        \item lvalue
+        \item pvalue
+        \item prvalue
+        \item xvalue
+    \end{itemize}
+
+    나도 잘 모르니 생략.
+\end{frame}
+
+
+\begin{frame}{forward}
+    \begin{itemize}
+        \item $std::move$
+        \item move semantics
+        \item perfect forwarding
+        \item universe reference : scott meyers가 처음으로 명명함. 정식 명칭은 아니나 워낙 유명해서 표준처럼 불림.\href{https://isocpp.org/blog/2012/11/universal-references-in-c11-scott-meyers}{\textcolor{blue}{원글}}, \href{http://egloos.zum.com/sweeper/v/3149089}{\textcolor{blue}{번역}}
+        
+    \end{itemize}
+\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%networking
+\section{networking}
+
+
+\begin{frame}{}
+    c++ 표준에는 아직 없음.
+    \begin{itemize}
+        \item boost asio : 크로스 플랫폼
+        \item winsock
+        \item BSD
+    \end{itemize}
+    
+    \href{https://jacking.tistory.com/1267}{\textcolor{blue}{참고}}
+    
+\end{frame}
+
+
+% \begin{frame}[fragile]{}
+%     \begin{lstlisting}[style = CppStyle]
+    
+%     \end{lstlisting}
+% \end{frame}    
+
+
+% \begin{frame}{}
+%     \begin{figure}[h!]
+%         %\centering
+%         \includegraphics[scale=0.25]{}
+%         \caption{}
+%     \end{figure}
+% \end{frame}    
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%multithreading c++17,20
+
+%atomic, mutex, task기반
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%api 
+
+
+
+\end{document}
+
+
+
+% \begin{frame}{}
+%     \href{}{\textcolor{blue}{참고}}
+% \end{frame}    
+
+
+
+% \begin{frame}{}
+%     \begin{itemize}
+%         \item 
+%         \item 
+%         \item 
+%     \end{itemize}
+% \end{frame}
+
+
+% \begin{frame}[fragile]{}
+%     \begin{lstlisting}[style = CppStyle]
+    
+%     \end{lstlisting}
+% \end{frame}    
+
+
+% \begin{frame}{}
+%     \begin{figure}[h!]
+%         %\centering
+%         \includegraphics[scale=0.25]{}
+%         \caption{}
+%     \end{figure}
+% \end{frame}    
+
+
