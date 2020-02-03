@@ -71,6 +71,9 @@ margin=.5em}]{dfn}
 
 \begin{document}
 
+\begin{frame}
+    \maketitle
+\end{frame}  
 
 \begin{frame}
     \tableofcontents
@@ -157,16 +160,15 @@ margin=.5em}]{dfn}
     }
     sample a(1,20),b(29,30);
     a = b; //compile ok default fucntion
-    a = b = c; // ?
+    a = b = c; // a.operator=(b.operator=(c))
     a = b + c;
     \end{lstlisting}
 \end{frame}    
 
 
-\begin{frame}
-    a.operator=(b.operator=(c))
+% \begin{frame}
 
-\end{frame}
+% \end{frame}
 
 
 
@@ -175,7 +177,6 @@ margin=.5em}]{dfn}
     \begin{lstlisting}[style = CppStyle]
     #include<istream>
     #include<ostream>
-
     class sample
     {
     public:
@@ -185,15 +186,11 @@ margin=.5em}]{dfn}
         int a;
         int b; 
     }
-        
-    std::ostream& operator<<(std::ostream& os, const sample& c)
-    {
+    std::ostream& operator<<(std::ostream& os, const sample& c)    {
         os << a <<' ' << b;
         return os;
     }
-
-    std::istream& operator>>(std::istream& os, sample& c)
-    {
+    std::istream& operator>>(std::istream& os, sample& c)    {
         os >> a >> b;
         return os;
     }
@@ -211,12 +208,12 @@ margin=.5em}]{dfn}
 \end{frame}
 
 
-\begin{frame}[fragile]{기초 개념}
-    \begin{lstlisting}[style = CppStyle]
-        sample(sample&& a) = default;
-        sample& operator=(sample&& a) = default;
-    \end{lstlisting}
-\end{frame}
+% \begin{frame}[fragile]{기초 개념}
+%     \begin{lstlisting}[style = CppStyle]
+%         sample(sample&& a) = default;
+%         sample& operator=(sample&& a) = default;
+%     \end{lstlisting}
+% \end{frame}
 
 \begin{frame}{value(C++11)}
     \href{https://en.cppreference.com/w/cpp/language/value_category}{\textcolor{blue}{참고}}
@@ -250,7 +247,7 @@ margin=.5em}]{dfn}
 \section{networking}
 
 
-\begin{frame}{}
+\begin{frame}{networking}
     c++ 표준에는 아직 없음.
     \begin{itemize}
         \item boost asio : 크로스 플랫폼
